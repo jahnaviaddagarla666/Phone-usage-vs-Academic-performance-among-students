@@ -1,48 +1,55 @@
-This project explores how students' phone usage habits affect their academic performance. Using real survey data, it identifies patterns and provides personalized recommendations through a mobile-friendly web app.
+# 📱 Phone Usage Vs Academic Performance among students
 
-📌 Objective
-Analyze the relationship between phone usage and CGPA
+## 📝 Description
+This project analyzes the relationship between **student phone usage habits and academic performance**, and provides **personalized recommendations** to help students optimize their phone use for better study outcomes.  
+It includes a **mobile-friendly web app** that generates tailored advice based on user input.
 
-Identify habits that impact academics
+---
 
-Offer personalized advice to improve study outcomes
+## 🔍 Features
+- 📊 **Data Analysis**: Explores survey data on phone usage and CGPA among students.  
+- 📈 **Statistical Insights**: Visualizes and tests correlations between phone habits and academic results.  
+- 🤖 **Personalized Recommendations**: Interactive web app offers custom advice based on user responses.  
+- 📱 **Mobile-Responsive**: The app works seamlessly on both desktop and mobile devices.  
 
-📊 Data
-Collected via student surveys, the dataset includes:
+---
 
-CGPA
+## 💻 Demo
+You can try the app by downloading and opening the HTML file:
 
-Daily phone usage (hours)
+📂 `student_phone_advisor_mobile.html`
 
-Main phone activities
+---
 
-Study and distraction habits
+### 📊 Data Collection:
+  - Surveyed students about:
+  - Phone usage (daily hours)
+  - Main activities on the phone
+  - Academic performance (CGPA)
 
-🔍 Analysis
-Cleaned and visualized data using Python (pandas, seaborn)
+### 🔍 Analysis:
+- Explored relationships between phone usage hours, main activities, and CGPA.
+- Used **statistical tests** (ANOVA, t-tests) to check significance.
+- Visualized findings with **boxplots** and **summary tables**.
 
-Found correlations (e.g., higher phone use → lower CGPA)
 
-Generated summary stats and visual insights
+---
 
-📁 Survey Data (CSV)
-📄 Summary Stats
-📊 Heatmap
+## 🌐 Web App
+- Users enter their CGPA, phone usage, and main habits.
+- The app **instantly generates personalized recommendations**.
 
-🌐 Web App
-📄 student_phone_advisor_mobile.html
+---
 
-Features:
+## 🛠️ Technologies Used
+- **Python**: `pandas`, `matplotlib`, `seaborn`  
+- **Web Development**: HTML, CSS, JavaScript  
+- **AI Tools**: Used for code generation and accelerating analysis  
 
-Input CGPA, phone habits → get tailored advice
+---
 
-Works offline in any browser (mobile/desktop)
-
-No data is sent anywhere (privacy-friendly)
-
-⚙️ Tools Used
-Python: Data analysis
-
-HTML/CSS/JS: Web app
-
-AI tools: Speed up coding and insights
+## ▶️ How to Run
+1. Download the HTML file from the **release section**  
+2. Open it in any **web browser** (desktop or mobile)  
+3. Fill in your details  
+4. Receive **instant recommendations**
