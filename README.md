@@ -17,8 +17,6 @@ It includes a **mobile-friendly web app** that generates tailored advice based o
 ## 💻 Demo
 You can try the app by downloading and opening the HTML file:
 
-📂 `student_phone_advisor_mobile.html`
-
 ---
 
 ### 📊 Data Collection:
@@ -48,8 +46,7 @@ You can try the app by downloading and opening the HTML file:
 
 ---
 
-## ▶️ How to Run
-1. Download the HTML file from the **release section**  
-2. Open it in any **web browser** (desktop or mobile)  
-3. Fill in your details  
-4. Receive **instant recommendations**
+## ▶️ How to Run 
+1. Run and Open the file in **web browser** (desktop or mobile)  
+2. Fill in your details  
+3. Receive **instant recommendations**
