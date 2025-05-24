@@ -1,0 +1,8 @@
+Metric,Value,Interpretation
+Sample Size,25.0,Small but focused dataset
+Mean CGPA,8.09,Above average performance
+Phone-CGPA Correlation,-0.236,Weak negative relationship
+ANOVA p-value,0.373,No significant difference by usage hours
+T-test p-value,0.161,No significant difference by distraction
+Students Reporting Distraction (%),84.0,High perceived distraction
+Students with Negative Impact (%),84.0,High reported negative impact

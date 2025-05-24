@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Phone Usage Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .recommendations {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            display: none;
+        }
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .high-priority {
+            border-left-color: #e74c3c;
+        }
+        .medium-priority {
+            border-left-color: #f39c12;
+        }
+        .low-priority {
+            border-left-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Smart Phone Usage Advisor for Students</h1>
+        <form id="recommendationForm">
+            <div class="form-group">
+                <label for="cgpa">Current CGPA:</label>
+                <input type="number" id="cgpa" min="0" max="10" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneHours">Daily phone usage:</label>
+                <select id="phoneHours" required>
+                    <option value="">Select hours</option>
+                    <option value="less than 1 hour">Less than 1 hour</option>
+                    <option value="1-4 hours">1-4 hours</option>
+                    <option value="more than 4 hours">More than 4 hours</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mainActivity">Main phone activity:</label>
+                <select id="mainActivity" required>
+                    <option value="">Select activity</option>
+                    <option value="Social Media">Social Media</option>
+                    <option value="Entertainment (YouTube, gaming, OTT)">Entertainment</option>
+                    <option value="Studying (PDFs, YouTube, notes, etc.)">Studying</option>
+                    <option value="Communication">Communication</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="distraction">Do you feel distracted by your phone while studying?</label>
+                <select id="distraction" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="studyWithPhone">Do you use your phone for studying?</label>
+                <select id="studyWithPhone" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="negativeImpact">Has phone usage affected your academics negatively?</label>
+                <select id="negativeImpact" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="limitUsage">Do you try to limit phone usage during important times?</label>
+                <select id="limitUsage" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <button type="submit">Get Personalized Recommendations</button>
+        </form>
+        <div id="recommendations" class="recommendations">
+            <h2>📋 Your Personalized Recommendations</h2>
+            <div id="recommendationsList"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('recommendationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cgpa = parseFloat(document.getElementById('cgpa').value);
+            const phoneHours = document.getElementById('phoneHours').value;
+            const mainActivity = document.getElementById('mainActivity').value;
+            const distraction = document.getElementById('distraction').value;
+            const studyWithPhone = document.getElementById('studyWithPhone').value;
+            const negativeImpact = document.getElementById('negativeImpact').value;
+            const limitUsage = document.getElementById('limitUsage').value;
+            const recommendations = generateRecommendations(cgpa, phoneHours, mainActivity, distraction, studyWithPhone, negativeImpact, limitUsage);
+            displayRecommendations(recommendations);
+        });
+
+        function generateRecommendations(cgpa, phoneHours, mainActivity, distraction, studyWithPhone, negativeImpact, limitUsage) {
+            const recommendations = [];
+            if (phoneHours === 'more than 4 hours') {
+                recommendations.push({ text: 'Reduce phone usage to less than 4 hours daily. Aim for 1-2 hours if possible.', priority: 'high' });
+            } else if (phoneHours === '1-4 hours') {
+                recommendations.push({ text: 'Your phone usage is moderate. Try to keep it closer to 1 hour, especially during exam periods.', priority: 'medium' });
+            } else {
+                recommendations.push({ text: 'Your phone usage is already low. Maintain this habit for best academic results.', priority: 'low' });
+            }
+            if (distraction === 'Yes') {
+                recommendations.push({ text: 'Since you feel distracted, avoid using your phone during study sessions. Keep it in another room or use focus apps.', priority: 'high' });
+            } else {
+                recommendations.push({ text: 'You handle phone distractions well, but still be mindful of notifications during study time.', priority: 'low' });
+            }
+            if (mainActivity === 'Social Media' || mainActivity === 'Entertainment (YouTube, gaming, OTT)') {
+                recommendations.push({ text: 'Limit social media and entertainment use, especially before and during study hours. These are linked to lower CGPA.', priority: 'high' });
+            } else if (mainActivity === 'Studying (PDFs, YouTube, notes, etc.)') {
+                recommendations.push({ text: 'Using your phone for studying is good, but ensure it does not lead to distractions. Use dedicated study apps.', priority: 'medium' });
+            }
+            if (studyWithPhone === 'No') {
+                recommendations.push({ text: 'Consider using your phone for academic resources, but avoid unrelated apps during study.', priority: 'medium' });
+            } else {
+                recommendations.push({ text: 'Continue using your phone for study, but block distracting apps during study time.', priority: 'medium' });
+            }
+            if (negativeImpact === 'Yes') {
+                recommendations.push({ text: 'Since you report negative impact, set strict phone-free periods during study and sleep.', priority: 'high' });
+            }
+            if (limitUsage === 'No') {
+                recommendations.push({ text: 'Try to set daily limits or use focus mode during study/exam periods.', priority: 'high' });
+            } else {
+                recommendations.push({ text: 'Keep up the good work limiting your phone during important times!', priority: 'low' });
+            }
+            if (cgpa < 7.0) {
+                recommendations.push({ text: 'Your CGPA suggests room for improvement. Consider a digital detox during study hours.', priority: 'high' });
+            } else if (cgpa >= 8.5) {
+                recommendations.push({ text: 'Excellent CGPA! Your current phone habits seem to work well for you.', priority: 'low' });
+            }
+            return recommendations;
+        }
+
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendationsList');
+            container.innerHTML = '';
+            recommendations.forEach((rec, index) => {
+                const div = document.createElement('div');
+                div.className = `recommendation-item ${rec.priority}-priority`;
+                div.innerHTML = `<strong>${index + 1}.</strong> ${rec.text}`;
+                container.appendChild(div);
+            });
+            document.getElementById('recommendations').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
