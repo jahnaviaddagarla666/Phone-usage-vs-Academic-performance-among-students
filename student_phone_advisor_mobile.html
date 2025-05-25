@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Phone Usage Advisor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+        }
+        .container {
+            max-width: 420px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(44, 62, 80, 0.12);
+            padding: 24px 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 6px;
+            display: block;
+            font-size: 14px;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 2px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        button {
+            width: 100%;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        button:hover, button:active {
+            background: #217dbb;
+        }
+        .recommendations {
+            margin-top: 24px;
+            background: #f4f8fb;
+            border-radius: 8px;
+            padding: 16px;
+            display: none;
+        }
+        .recommendations h2 {
+            margin-top: 0;
+            color: #2d3a4b;
+            font-size: 1.2em;
+        }
+        .recommendation-item {
+            background: #fff;
+            border-left: 4px solid #3498db;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .high-priority { border-left-color: #e74c3c; }
+        .medium-priority { border-left-color: #f39c12; }
+        .low-priority { border-left-color: #27ae60; }
+        
+        @media (max-width: 480px) {
+            body { padding: 5px; }
+            .container { 
+                margin: 10px auto;
+                padding: 20px 16px;
+                border-radius: 8px;
+            }
+            h1 { font-size: 1.3em; }
+            select, input { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Student Phone Usage Advisor</h1>
+        <form id="recommendationForm">
+            <div class="form-group">
+                <label for="cgpa">Current CGPA:</label>
+                <input type="number" id="cgpa" min="0" max="10" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneHours">Daily phone usage:</label>
+                <select id="phoneHours" required>
+                    <option value="">Select hours</option>
+                    <option value="less than 1 hour">Less than 1 hour</option>
+                    <option value="1-4 hours">1-4 hours</option>
+                    <option value="more than 4 hours">More than 4 hours</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mainActivity">Main phone activity:</label>
+                <select id="mainActivity" required>
+                    <option value="">Select activity</option>
+                    <option value="Social Media">Social Media</option>
+                    <option value="Entertainment">Entertainment (YouTube, gaming, OTT)</option>
+                    <option value="Studying">Studying (PDFs, YouTube, notes, etc.)</option>
+                    <option value="Communication">Communication</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="distraction">Do you feel distracted by your phone while studying?</label>
+                <select id="distraction" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="studyWithPhone">Do you use your phone for studying?</label>
+                <select id="studyWithPhone" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="negativeImpact">Has phone usage affected your academics negatively?</label>
+                <select id="negativeImpact" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="limitUsage">Do you try to limit phone usage during study time?</label>
+                <select id="limitUsage" required>
+                    <option value="">Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <button type="submit">Get Personalized Recommendations</button>
+        </form>
+        <div id="recommendations" class="recommendations">
+            <h2>📋 Your Personalized Recommendations</h2>
+            <div id="recommendationsList"></div>
+        </div>
+    </div>
+    <script>
+        function generateRecommendations(cgpa, phoneHours, mainActivity, distraction, studyWithPhone, negativeImpact, limitUsage) {
+            let recs = [];
+            
+            if (cgpa < 7.5 && phoneHours === 'more than 4 hours') {
+                recs.push({text: 'Reduce your phone usage to under 4 hours daily to improve focus and academic performance.', priority: 'high-priority'});
+            }
+            
+            if (mainActivity === 'Social Media' || mainActivity === 'Entertainment') {
+                recs.push({text: 'Limit time spent on social media and entertainment apps. Use app timers or focus modes.', priority: 'medium-priority'});
+            }
+            
+            if (distraction === 'Yes') {
+                recs.push({text: 'Keep your phone out of reach or use Do Not Disturb while studying.', priority: 'high-priority'});
+            }
+            
+            if (studyWithPhone === 'Yes') {
+                recs.push({text: 'Use your phone only for academic resources. Avoid switching to distracting apps.', priority: 'low-priority'});
+            }
+            
+            if (negativeImpact === 'Yes') {
+                recs.push({text: 'Reflect on your phone habits and set clear study goals. Consider digital detox periods.', priority: 'high-priority'});
+            }
+            
+            if (limitUsage === 'No') {
+                recs.push({text: 'Start implementing phone-free study sessions. Begin with 30-minute blocks.', priority: 'medium-priority'});
+            }
+            
+            if (cgpa >= 8.5) {
+                recs.push({text: 'Great academic performance! Maintain your current phone usage balance.', priority: 'low-priority'});
+            }
+            
+            if (phoneHours === 'less than 1 hour') {
+                recs.push({text: 'Excellent phone discipline! Consider helping peers with time management tips.', priority: 'low-priority'});
+            }
+            
+            if (recs.length === 0) {
+                recs.push({text: 'Your phone usage seems balanced. Keep monitoring and adjusting as needed.', priority: 'low-priority'});
+            }
+            
+            return recs;
+        }
+        
+        document.getElementById('recommendationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cgpa = parseFloat(document.getElementById('cgpa').value);
+            const phoneHours = document.getElementById('phoneHours').value;
+            const mainActivity = document.getElementById('mainActivity').value;
+            const distraction = document.getElementById('distraction').value;
+            const studyWithPhone = document.getElementById('studyWithPhone').value;
+            const negativeImpact = document.getElementById('negativeImpact').value;
+            const limitUsage = document.getElementById('limitUsage').value;
+            
+            const recommendations = generateRecommendations(cgpa, phoneHours, mainActivity, distraction, studyWithPhone, negativeImpact, limitUsage);
+            
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+            
+            recommendations.forEach(rec => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item ' + rec.priority;
+                div.textContent = rec.text;
+                recommendationsList.appendChild(div);
+            });
+            
+            document.getElementById('recommendations').style.display = 'block';
+            document.getElementById('recommendations').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
